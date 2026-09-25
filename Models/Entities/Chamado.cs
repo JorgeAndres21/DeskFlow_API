@@ -1,8 +1,8 @@
 namespace DeskFlowApi.Models.Entities
 {
-    public class Chamados
+    public class Chamado
     {
-        public int ChamadosId { get; set; }
+        public int ChamadoId { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public string Prioridade { get; set; }
@@ -11,8 +11,9 @@ namespace DeskFlowApi.Models.Entities
         public DateTime DataAbertura { get; set; }
         public DateTime DataFechamento { get; set; }
         public string Solucao { get; set; }
-        public virtual Categorias Categoria { get; set; }
-        public int CategoriaIdKey { get; set; }
+        public virtual Categoria Categoria { get; set; }
+        public int CategoriaIdFK { get; set; }
+        public ICollection<Interacao> InteracoesList { get; set; }
 
         private void ValidarStatus(string status)
         {

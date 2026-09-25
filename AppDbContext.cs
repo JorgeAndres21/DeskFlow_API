@@ -11,13 +11,13 @@ namespace DeskFlowApi
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Categorias>(cat =>
+            modelBuilder.Entity<Categoria>(cat =>
             {
                 cat.ToTable("tb_categorias");
 
-                cat.HasKey(c => c.CategotiaId);
+                cat.HasKey(c => c.CategoriaId);
 
-                cat.Property(c => c.CategotiaId)
+                cat.Property(c => c.CategoriaId)
                 .HasColumnName("idCat")
                 .HasColumnType("int")
                 .ValueGeneratedOnAdd()
@@ -30,14 +30,16 @@ namespace DeskFlowApi
 
                 cat.HasMany(c => c.ChamadosList)
                 .WithOne(c => c.Categoria)
-                .HasForeignKey(c => c.CategoriaIdKey);
+                .HasForeignKey(c => c.CategoriaIdFK);
             });
 
-            modelBuilder.Entity<Chamados>(cham =>
+            modelBuilder.Entity<Chamado>(cham =>
             {
                 cham.ToTable("tb_chamados");
 
-                cham.Property(c => c.ChamadosId)
+                cham.HasKey(c => c.ChamadoId);
+
+                cham.Property(c => c.ChamadoId)
                 .HasColumnName("idCham")
                 .HasColumnType("int")
                 .ValueGeneratedOnAdd()
@@ -69,7 +71,7 @@ namespace DeskFlowApi
 
                 cham.Property(c => c.DataAbertura)
                 .HasColumnName("dataAbertura")
-                .HasDefaultValue("getdate()");
+                .HasDefaultValueSql("getdate()");
 
                 cham.Property(c => c.DataFechamento)
                 .HasColumnName("dataFechamento");
@@ -77,6 +79,36 @@ namespace DeskFlowApi
                 cham.Property(c => c.Solucao)
                 .HasColumnName("solucao")
                 .HasColumnType("varchar(250)");
+
+                cham.HasMany(c => c.InteracoesList)
+                .WithOne(c => c.Chamado)
+                .HasForeignKey(c => c.ChamadoIdFK);
+            });
+
+            modelBuilder.Entity<Interacao>(inter =>
+            {
+                inter.ToTable("tb_interacoes");
+
+                inter.HasKey(i => i.InteracaoId);
+
+                inter.Property(i => i.InteracaoId)
+                .HasColumnName("interacoesId")
+                .HasColumnType("int")
+                .ValueGeneratedOnAdd()
+                .UseIdentityColumn(seed: 1, increment: 1);
+
+                inter.Property(i => i.Autor)
+                .HasColumnName("autor")
+                .HasColumnType("varchar(50)")
+                .IsRequired();
+
+                inter.Property(i => i.Mensagem)
+                .HasColumnName("mensagem")
+                .HasColumnType("varchar(250)")
+                .IsRequired();
+
+                inter.Property(i => i.DataRegistro)
+                .HasColumnName("dataRegistro");
             });
         }
     }
