@@ -15,27 +15,15 @@ namespace DeskFlowApi.Models.Entities
         public int CategoriaIdFK { get; set; }
         public ICollection<Interacao> InteracoesList { get; set; }
 
-        private void ValidarStatus(string status)
+        public void Update(Chamado cham)
         {
-            string statusToLower = status.ToLower();
-
-            if (statusToLower == "aberto" || statusToLower == "em_andamento" || statusToLower == "fechado")
-            {
-                Status = status;
-            }
-            else throw new Exception("Tipo de prioridade invalida");
+            Titulo = cham.Titulo;
+            Descricao = cham.Descricao;
+            SolicitanteNome = cham.SolicitanteNome;
+            Solucao = cham.Solucao;
+            CategoriaIdFK = cham.CategoriaIdFK;
         }
-        private void ValidarPrioridade(string prioridade)
-        {
-            string prioridadeToLower = prioridade.ToLower();
 
-            if (prioridadeToLower == "baixa" || prioridadeToLower == "media"
-            || prioridadeToLower == "média" || prioridadeToLower == "alta")
-            {
-                Prioridade = prioridade;
-            }
-            else throw new Exception("Tipo de prioridade invalida");
-        }
     }
 }
 

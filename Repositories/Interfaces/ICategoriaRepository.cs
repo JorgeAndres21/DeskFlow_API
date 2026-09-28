@@ -8,7 +8,7 @@ namespace DeskFlowApi.Repositories.Interface
         Task<List<Categoria>> ObterTodos(); //Get
         Task<Categoria> ObterPorId(int id);
         Task CadastrarNovo(Categoria cat); // Post
-        Task Apagar(int id);
-        Task Atualizar(int id, Categoria cat);
+        Task Apagar(Categoria cat); // Delete
+        Task Atualizar(Categoria cat); //Put
     }
 }

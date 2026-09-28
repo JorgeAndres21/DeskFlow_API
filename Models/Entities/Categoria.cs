@@ -5,5 +5,10 @@ namespace DeskFlowApi.Models.Entities
         public int CategoriaId { get; set; }
         public string Nome { get; set; }
         public virtual ICollection<Chamado> ChamadosList { get; set; }
+
+        public void Update(Categoria cat)
+        {
+            Nome = cat.Nome;
+        }
     }
 }

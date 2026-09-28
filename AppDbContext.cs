@@ -111,5 +111,7 @@ namespace DeskFlowApi
                 .HasColumnName("dataRegistro");
             });
         }
+        public DbSet<Categoria> Categorias => Set<Categoria>();
+        public DbSet<Chamado> Chamados => Set<Chamado>();
     }
 }
