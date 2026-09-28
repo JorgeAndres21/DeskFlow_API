@@ -15,6 +15,9 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ICategoriaServices, CategoriaServices>();
 
+builder.Services.AddScoped<IChamadoRepository, ChamadosRepository>();
+builder.Services.AddScoped<IChamadoServices, ChamadoServices>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
