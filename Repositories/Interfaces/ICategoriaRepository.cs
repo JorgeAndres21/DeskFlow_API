@@ -5,10 +5,10 @@ namespace DeskFlowApi.Repositories.Interface
 {
     public interface ICategoriaRepository
     {
-        Task<List<Categoria>> ObterTodos(); //Get
-        Task<Categoria> ObterPorId(int id);
-        Task CadastrarNovo(Categoria cat); // Post
-        Task Apagar(Categoria cat); // Delete
-        Task Atualizar(Categoria cat); //Put
+        Task<List<Categoria>> ObterCategorias(); //Get
+        Task<Categoria> ObterCategoriasPorId(int id);
+        Task CadastrarNovaCategoria(Categoria cat); // Post
+        Task ApagarCategoria(Categoria cat); // Delete
+        Task AtualizarCategoria(Categoria cat); //Put
     }
 }

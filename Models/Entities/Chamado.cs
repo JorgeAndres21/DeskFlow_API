@@ -23,7 +23,6 @@ namespace DeskFlowApi.Models.Entities
             Solucao = cham.Solucao;
             CategoriaIdFK = cham.CategoriaIdFK;
         }
-
     }
 }
 
