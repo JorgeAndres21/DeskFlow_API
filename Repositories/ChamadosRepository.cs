@@ -1,4 +1,5 @@
 
+using DeskFlowApi.DtO;
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -29,13 +30,19 @@ namespace DeskFlowApi.Repositories
             await _context.Chamados.AddAsync(cham);
             await _context.SaveChangesAsync();
         }
-        public async Task IniciarOuFecharAtendimento(int id)
+        public async Task IniciarAtendimento(int id)
         {
             var chamadoDb = await _context.Chamados.FindAsync(id);
 
-            if (chamadoDb.Status == "aberto") chamadoDb.Status = "em andamento";
-            else if (chamadoDb.Status == "em andamento") chamadoDb.Status = "fechado";
-            else chamadoDb.Status = "em andamento";
+            chamadoDb.Status = "em andamento";
+        }
+        public async Task FecharAtendimento(int id, ParametrosDTO parametros)
+        {
+            var chamadoDb = await _context.Chamados.FindAsync(id);
+
+            chamadoDb.Status = "fechado";
+            chamadoDb.Solucao = parametros.Solucao;
+            chamadoDb.DataFechamento = DateTime.Now;
 
             await _context.SaveChangesAsync();
         }

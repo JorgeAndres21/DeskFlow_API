@@ -1,3 +1,4 @@
+using DeskFlowApi.DtO;
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -37,11 +38,23 @@ namespace DeskFlowApi.Controllers
             return Ok();
         }
         [HttpPost]
-        [Route("{id}")]
-        public async Task<IActionResult> IniciarOuFecharChamado([FromRoute] string id)
+        [Route("{id}/iniciar")]
+        public async Task<IActionResult> IniciarChamado([FromRoute] string id)
         {
             bool idChamBool = int.TryParse(id, out int idCham);
-            await _services.IniciarOuFecharAtendimentoAsync(idCham);
+
+            await _services.IniciarAtendimentoAsync(idCham);
+
+            return Ok();
+
+        }
+        [HttpPost]
+        [Route("{id}/fechar")]
+        public async Task<IActionResult> FecharChamado([FromRoute] string id, [FromBody] ParametrosDTO parametros)
+        {
+            bool idChamBool = int.TryParse(id, out int idCham);
+
+            await _services.FecharAtendimentoAsync(idCham, parametros);
 
             return Ok();
         }

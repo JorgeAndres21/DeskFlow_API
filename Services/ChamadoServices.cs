@@ -1,5 +1,6 @@
 
 using System.Collections.Specialized;
+using DeskFlowApi.DtO;
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Repositories.Interface;
 using DeskFlowApi.Services.Interfaces;
@@ -30,19 +31,45 @@ namespace DeskFlowApi.Services
         {
             await _repository.AbrirNovoChamado(cham);
         }
-        public async Task IniciarOuFecharAtendimentoAsync(int id)
+        public async Task IniciarAtendimentoAsync(int id)
         {
-            var chamadoDb = _repository.ObterChamadosPorId(id);
+            var chamadoDb = await _repository.ObterChamadosPorId(id);
 
-            if (chamadoDb == null) throw new KeyNotFoundException("Chamado não encontrado");
+            if (chamadoDb == null) throw new NullReferenceException("Chamado não existente.");
 
-            await _repository.IniciarOuFecharAtendimento(id);
+            if (chamadoDb.Status == "aberto")
+            {
+                await _repository.IniciarAtendimento(id);
+            }
+            else
+            {
+                throw new Exception("Atendimento já está em andamento ou fechado.");
+            }
+
+        }
+        public async Task FecharAtendimentoAsync(int id, ParametrosDTO parametros)
+        {
+            var chamadoDb = await _repository.ObterChamadosPorId(id);
+
+            if (chamadoDb == null || parametros == null) throw new NullReferenceException("Chamado ou parámetros nulo");
+
+            if (chamadoDb.Status == "em andamento")
+            {
+                await _repository.FecharAtendimento(id, parametros);
+            }
+            else
+            {
+                throw new Exception("Atendimento ainda não foi aberto ou já esta fechado");
+            }
+
         }
         public async Task AdicionarInteracaoAsync(int id, Interacao inter)
         {
             var chamadoDb = await _repository.ObterChamadosPorId(id);
 
             if (chamadoDb == null) throw new KeyNotFoundException("Chamado não encontrado");
+
+            if (chamadoDb.Status == "fechado") throw new Exception("Não é possivél adicionar uma interação em um chamado fechado.");
 
             await _repository.AdicionarInteracao(id, inter);
         }
