@@ -6,18 +6,18 @@ namespace DeskFlowApi.Services
 {
     public class CategoriaServices : ICategoriaServices
     {
-        private ICategoriaRepository _services;
+        private ICategoriaRepository _repository;
         public CategoriaServices(ICategoriaRepository services)
         {
-            _services = services;
+            _repository = services;
         }
         public async Task<List<Categoria>> ObterCategoriasAsync()
         {
-            return await _services.ObterCategorias();
+            return await _repository.ObterCategorias();
         }
         public async Task<Categoria> ObterCategoriaPorIdAsync(int id)
         {
-            var categoriaDb = await _services.ObterCategoriasPorId(id);
+            var categoriaDb = await _repository.ObterCategoriasPorId(id);
 
             if (categoriaDb == null) throw new KeyNotFoundException("Não encontrado");
 
@@ -25,23 +25,23 @@ namespace DeskFlowApi.Services
         }
         public async Task CadastrarNovaCategoriaAsync(Categoria cat)
         {
-            await _services.CadastrarNovaCategoria(cat);
+            await _repository.CadastrarNovaCategoria(cat);
         }
         public async Task ApagarCategoriaAsync(int id)
         {
-            var categoriaDb = await _services.ObterCategoriasPorId(id);
+            var categoriaDb = await _repository.ObterCategoriasPorId(id);
 
             if (categoriaDb == null) return;
 
-            await _services.ApagarCategoria(categoriaDb);
+            await _repository.ApagarCategoria(categoriaDb);
         }
         public async Task AtualizarCategoriaAsync(int id, Categoria cat)
         {
-            var categoriaDb = await _services.ObterCategoriasPorId(id);
+            var categoriaDb = await _repository.ObterCategoriasPorId(id);
 
             if (categoriaDb == null) throw new KeyNotFoundException($"Categoria com id:{id} não existe");
 
-            await _services.AtualizarCategoria(cat);
+            await _repository.AtualizarCategoria(cat);
         }
     }
 }

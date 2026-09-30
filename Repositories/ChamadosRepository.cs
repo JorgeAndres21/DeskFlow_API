@@ -15,12 +15,12 @@ namespace DeskFlowApi.Repositories
         }
         public async Task<List<Chamado>> ObterChamados()
         {
-            return await _context.Chamados.ToListAsync();
+            return await _context.Chamados.Include(c => c.InteracoesList).ToListAsync();
         }
         public async Task<Chamado> ObterChamadosPorId(int id)
         {
             var chamadoDb = await _context.Chamados
-            .Where(c => c.ChamadoId == id).FirstOrDefaultAsync();
+            .Where(c => c.ChamadoId == id).Include(c => c.InteracoesList).FirstOrDefaultAsync();
 
             return chamadoDb;
         }
@@ -42,8 +42,7 @@ namespace DeskFlowApi.Repositories
         public async Task AdicionarInteracao(int id, Interacao inter)
         {
             var chamadoDb = await _context.Chamados
-            .Include(c => c.InteracoesList)
-            .FirstOrDefaultAsync(c => c.ChamadoId == id);
+            .Include(c => c.InteracoesList).FirstOrDefaultAsync(c => c.ChamadoId == id);
 
             chamadoDb.InteracoesList.Add(inter);
             await _context.SaveChangesAsync();
