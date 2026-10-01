@@ -2,6 +2,7 @@ using DeskFlowApi.DtO;
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DeskFlowApi.Controllers
 {
@@ -16,9 +17,10 @@ namespace DeskFlowApi.Controllers
             _services = chamadoServices;
         }
         [HttpGet]
-        public async Task<IActionResult> ObterChamados()
+        public async Task<IActionResult> ObterChamados([FromQuery] Filtro filtro)
         {
-            List<Chamado> chamadoDb = await _services.ObterChamadosAsync();
+            var chamadoDb = await _services.ObterChamadosAsync(filtro);
+
             return Ok(chamadoDb);
         }
         [HttpGet]

@@ -6,6 +6,7 @@ namespace DeskFlowApi.Services.Interfaces
     public interface IChamadoServices
     {
         Task<List<Chamado>> ObterChamadosAsync();
+        Task<List<Chamado>> ObterChamadosAsync(Filtro filtro);
         Task<Chamado> ObterChamadoPorIdAsync(int id);
         Task AbrirNovoChamadoAsync(Chamado cham);
         Task IniciarAtendimentoAsync(int id);

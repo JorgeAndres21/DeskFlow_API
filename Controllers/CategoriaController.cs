@@ -1,3 +1,4 @@
+using DeskFlowApi.DtO;
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,6 @@ namespace DeskFlowApi.Controllers
         {
             _services = categoriaServices;
         }
-
         [HttpGet]
         public async Task<IActionResult> ObterCategorias()
         {

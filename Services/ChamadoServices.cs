@@ -4,6 +4,7 @@ using DeskFlowApi.DtO;
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Repositories.Interface;
 using DeskFlowApi.Services.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DeskFlowApi.Services
 {
@@ -18,6 +19,28 @@ namespace DeskFlowApi.Services
         public async Task<List<Chamado>> ObterChamadosAsync()
         {
             return await _repository.ObterChamados();
+        }
+        public async Task<List<Chamado>> ObterChamadosAsync(Filtro filtro)
+        {
+            var chamadoDb = await _repository.ObterChamados();
+            List<Chamado> chamadosLista = [];
+
+            if (!filtro.Status.IsNullOrEmpty() && !filtro.Prioridade.IsNullOrEmpty())
+            {
+                chamadosLista = chamadoDb.Where(c => c.Status == filtro.Status && c.Prioridade == filtro.Prioridade).ToList();
+            }
+            else
+                if (!filtro.Status.IsNullOrEmpty())
+                {
+                    chamadosLista = chamadoDb.Where(c => c.Status == filtro.Status).ToList();
+                }
+                else
+                    if (!filtro.Prioridade.IsNullOrEmpty())
+                    {
+                        chamadosLista = chamadoDb.Where(c => c.Prioridade == filtro.Prioridade).ToList();
+                    }
+                    else chamadosLista = await _repository.ObterChamados();
+            return chamadosLista;
         }
         public async Task<Chamado> ObterChamadoPorIdAsync(int id)
         {
