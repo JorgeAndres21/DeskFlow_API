@@ -1,4 +1,4 @@
-using DeskFlowApi.DtO;
+using DeskFlowApi.DTO;
 using DeskFlowApi.Models.Entities;
 
 namespace DeskFlowApi.Repositories.Interface

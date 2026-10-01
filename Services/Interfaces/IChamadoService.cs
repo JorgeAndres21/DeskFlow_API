@@ -1,12 +1,11 @@
-using DeskFlowApi.DtO;
+using DeskFlowApi.DTO;
 using DeskFlowApi.Models.Entities;
 
 namespace DeskFlowApi.Services.Interfaces
 {
     public interface IChamadoServices
     {
-        Task<List<Chamado>> ObterChamadosAsync();
-        Task<List<Chamado>> ObterChamadosAsync(Filtro filtro);
+        Task<List<Chamado>> ObterChamadosAsync(FiltroDTO filtro);
         Task<Chamado> ObterChamadoPorIdAsync(int id);
         Task AbrirNovoChamadoAsync(Chamado cham);
         Task IniciarAtendimentoAsync(int id);

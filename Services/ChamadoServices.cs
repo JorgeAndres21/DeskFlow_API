@@ -1,6 +1,6 @@
 
-using System.Collections.Specialized;
-using DeskFlowApi.DtO;
+using DeskFlowApi.Exceptions;
+using DeskFlowApi.DTO;
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Repositories.Interface;
 using DeskFlowApi.Services.Interfaces;
@@ -15,12 +15,7 @@ namespace DeskFlowApi.Services
         {
             _repository = chamadoRepository;
         }
-
-        public async Task<List<Chamado>> ObterChamadosAsync()
-        {
-            return await _repository.ObterChamados();
-        }
-        public async Task<List<Chamado>> ObterChamadosAsync(Filtro filtro)
+        public async Task<List<Chamado>> ObterChamadosAsync(FiltroDTO filtro)
         {
             var chamadoDb = await _repository.ObterChamados();
             List<Chamado> chamadosLista = [];
@@ -39,14 +34,14 @@ namespace DeskFlowApi.Services
                     {
                         chamadosLista = chamadoDb.Where(c => c.Prioridade == filtro.Prioridade).ToList();
                     }
-                    else chamadosLista = await _repository.ObterChamados();
+                    else return chamadoDb;
             return chamadosLista;
         }
         public async Task<Chamado> ObterChamadoPorIdAsync(int id)
         {
             var chamadoDb = await _repository.ObterChamadosPorId(id);
 
-            if (chamadoDb == null) throw new KeyNotFoundException("Chamado não encontrado");
+            if (chamadoDb == null) throw new IDNaoExistenteOuInvalidoException("Chamado não encontrado");
 
             return chamadoDb;
         }
@@ -58,7 +53,7 @@ namespace DeskFlowApi.Services
         {
             var chamadoDb = await _repository.ObterChamadosPorId(id);
 
-            if (chamadoDb == null) throw new NullReferenceException("Chamado não existente.");
+            if (chamadoDb == null) throw new IDNaoExistenteOuInvalidoException("Chamado não existente.");
 
             if (chamadoDb.Status == "aberto")
             {
@@ -66,7 +61,7 @@ namespace DeskFlowApi.Services
             }
             else
             {
-                throw new Exception("Atendimento já está em andamento ou fechado.");
+                throw new AtendimentoFechadoException("Atendimento já está em andamento ou fechado.");
             }
 
         }
@@ -74,7 +69,7 @@ namespace DeskFlowApi.Services
         {
             var chamadoDb = await _repository.ObterChamadosPorId(id);
 
-            if (chamadoDb == null || parametros == null) throw new NullReferenceException("Chamado ou parámetros nulo");
+            if (chamadoDb == null || parametros == null) throw new IDNaoExistenteOuInvalidoException("Chamado ou parámetros nulo");
 
             if (chamadoDb.Status == "em andamento")
             {
@@ -90,9 +85,9 @@ namespace DeskFlowApi.Services
         {
             var chamadoDb = await _repository.ObterChamadosPorId(id);
 
-            if (chamadoDb == null) throw new KeyNotFoundException("Chamado não encontrado");
+            if (chamadoDb == null) throw new IDNaoExistenteOuInvalidoException("Chamado não encontrado");
 
-            if (chamadoDb.Status == "fechado") throw new Exception("Não é possivél adicionar uma interação em um chamado fechado.");
+            if (chamadoDb.Status == "fechado") throw new AtendimentoFechadoException("Não é possivél adicionar uma interação em um chamado fechado.");
 
             await _repository.AdicionarInteracao(id, inter);
         }

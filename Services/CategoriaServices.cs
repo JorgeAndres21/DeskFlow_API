@@ -1,6 +1,7 @@
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Repositories.Interface;
 using DeskFlowApi.Services.Interfaces;
+using DeskFlowApi.Exceptions;
 
 namespace DeskFlowApi.Services
 {
@@ -19,7 +20,7 @@ namespace DeskFlowApi.Services
         {
             var categoriaDb = await _repository.ObterCategoriasPorId(id);
 
-            if (categoriaDb == null) throw new KeyNotFoundException("Não encontrado");
+            if (categoriaDb == null) throw new IDNaoExistenteOuInvalidoException("Não encontrado");
 
             return categoriaDb;
         }
@@ -39,7 +40,7 @@ namespace DeskFlowApi.Services
         {
             var categoriaDb = await _repository.ObterCategoriasPorId(id);
 
-            if (categoriaDb == null) throw new KeyNotFoundException($"Categoria com id:{id} não existe");
+            if (categoriaDb == null) throw new IDNaoExistenteOuInvalidoException($"Categoria com id:{id} não existe");
 
             await _repository.AtualizarCategoria(cat);
         }

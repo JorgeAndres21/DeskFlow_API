@@ -1,5 +1,5 @@
 
-namespace DeskFlowApi.DtO
+namespace DeskFlowApi.DTO
 {
     public class ParametrosDTO
     {

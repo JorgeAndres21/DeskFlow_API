@@ -1,7 +1,7 @@
 
-namespace DeskFlowApi.DtO
+namespace DeskFlowApi.DTO
 {
-    public class Filtro
+    public class FiltroDTO
     {
         public string Status { get; set; }
         public string Prioridade { get; set; }

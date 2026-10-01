@@ -1,5 +1,5 @@
 
-using DeskFlowApi.DtO;
+using DeskFlowApi.DTO;
 using DeskFlowApi.Models.Entities;
 using DeskFlowApi.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -50,8 +50,13 @@ namespace DeskFlowApi.Repositories
         {
             var chamadoDb = await _context.Chamados
             .Include(c => c.InteracoesList).FirstOrDefaultAsync(c => c.ChamadoId == id);
+            Interacao interDb;
 
+            interDb = inter;
+
+            interDb.DataRegistro = DateTime.Now;
             chamadoDb.InteracoesList.Add(inter);
+
             await _context.SaveChangesAsync();
         }
     }

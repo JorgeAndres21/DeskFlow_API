@@ -1,4 +1,5 @@
 using DeskFlowApi;
+using DeskFlowApi.Config;
 using DeskFlowApi.Repositories;
 using DeskFlowApi.Repositories.Interface;
 using DeskFlowApi.Services;
@@ -35,5 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+app.UseMiddleware<ErrorMiddleware>();
 
 app.Run();
