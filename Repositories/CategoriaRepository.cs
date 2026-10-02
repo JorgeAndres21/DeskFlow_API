@@ -13,7 +13,7 @@ namespace DeskFlowApi.Repositories
         }
         public async Task<List<Categoria>> ObterCategorias()
         {
-            return await _context.Categorias.Include(c => c.ChamadosList).ToListAsync();
+            return await _context.Categorias.ToListAsync();
         }
         public async Task<Categoria> ObterCategoriasPorId(int id)
         {

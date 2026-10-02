@@ -55,7 +55,7 @@ namespace DeskFlowApi.Repositories
             interDb = inter;
 
             interDb.DataRegistro = DateTime.Now;
-            chamadoDb.InteracoesList.Add(inter);
+            chamadoDb.InteracoesList.Add(interDb);
 
             await _context.SaveChangesAsync();
         }
