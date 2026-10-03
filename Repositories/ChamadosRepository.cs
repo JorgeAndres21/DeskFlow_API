@@ -35,6 +35,7 @@ namespace DeskFlowApi.Repositories
             var chamadoDb = await _context.Chamados.FindAsync(id);
 
             chamadoDb.Status = "em andamento";
+            await _context.SaveChangesAsync();
         }
         public async Task FecharAtendimento(int id, ParametrosDTO parametros)
         {

@@ -42,7 +42,9 @@ namespace DeskFlowApi.Services
 
             if (categoriaDb == null) throw new IDNaoExistenteOuInvalidoException($"Categoria com id:{id} não existe");
 
-            await _repository.AtualizarCategoria(cat);
+            categoriaDb.Update(cat);
+
+            await _repository.AtualizarCategoria(categoriaDb);
         }
     }
 }
